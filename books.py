@@ -46,6 +46,7 @@ async def read_author_category_by_query(book_author: str, category: str):
     return books_to_return
 
 
+
 @app.post("/books/create_book")
 async def create_book(new_book=Body()):
     BOOKS.append(new_book)
@@ -64,3 +65,20 @@ async def delete_book(book_title: str):
         if BOOKS[i].get('title').casefold() == book_title.casefold():
             BOOKS.pop(i)
             break
+
+
+'''
+Get all books from specific author (using path or query params)
+'''
+@app.get("/books/author/{book_author}/")        # using path parameter
+async def get_specific_author(book_author: str):
+    books_to_return = []
+    for book in BOOKS:
+        if book.get('author').casefold() == book_author.casefold():
+            books_to_return.append(book)
+    return books_to_return
+
+''' REMOVING {book_author} makes it queryParameter
+    to make it work using query, place block of code before
+    async def read_author_category_by_query(book_author: str, category: str):
+'''
