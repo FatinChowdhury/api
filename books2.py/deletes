@@ -1,0 +1,6 @@
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int = Path(gt=0)):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            break
