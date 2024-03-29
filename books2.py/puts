@@ -1,6 +1,10 @@
-@app.put("/books/update_book")
+@app.put("/books/update_book", status_code=status.HTTP_204_NO_CONTENT)
 async def update_book(book: BookRequest):
+    book_changed = False
     for i in range(len(BOOKS)):
-        if BOOKS[i].id == book.id:
-            BOOKS[i] = book
+        if BOOKS[i].id == book.id:      # if the book id is found
+            BOOKS[i] = book             # update the book
+            book_changed = True         # set flag to true
+    if not book_changed:
+        raise HTTPException(status_code=404, detail="Item not found")
 
