@@ -41,3 +41,11 @@ class BookRequest(BaseModel):
             }
         }
 
+BOOKS = [
+    Book(1, "Computer Science Pro", "Fatin", "A nice book", 5, 2018),
+    Book(2, "fast with fastAPI", "Fatin", "A great book", 5, 2019),
+    Book(3, "Master Endpoints", "Fatin", "An awesome book", 5, 2020),
+    Book(4, "HP1", "Author 1", "Book Description", 2, 2021),
+    Book(5, "HP2", "Author 2", "Book Description", 3, 2022),
+    Book(6, "HP3", "Author 3", "Book Description", 1, 2023)
+]
