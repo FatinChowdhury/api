@@ -1,2 +1,3 @@
+cd Documents/fastapi
 fastapienv\Scripts\activate.bat
 (in TodoApp dir) uvicorn main:app --reload
