@@ -1,6 +1,18 @@
+'''
+cd Documents\fastapi
+fastapienv\Scripts\activate.bat
+cd todoapp
+uvicorn main:app --reload
+
+
+for postgreSQL:
+    Servers > TodoApplicationServer > Schemas > Tables
+    (for code, click on Query Tool)
+'''
+
 from typing import Annotated
 from datetime import timedelta, datetime
-from fastAPI import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from models import Users
 from passlib.context import CryptContext
@@ -62,7 +74,7 @@ def create_access_token(username: str, user_id: int, role: str, expires_delta: t
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithm=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get('sub')
         user_id: int = payload.get('id')
         user_role: str = payload.get('role')
@@ -76,7 +88,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
     create_user_model = Users(
-        email=create_users_request.email,
+        email=create_user_request.email,
         username=create_user_request.username,
         first_name=create_user_request.first_name,
         last_name=create_user_request.last_name,
@@ -98,7 +110,7 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     # should get ur info
 
 @router.post("/token", response_model = Token)
-async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depemds()],
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 db: db_dependency):
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
